@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {CounterSettings} from "./components/counterSettings/CounterSettings";
 import {Counter} from "./components/counter/Counter";
+import cl from "./app.module.css"
 
 export type minMaxType = {
     min: number,
@@ -67,7 +68,7 @@ export const App = () => {
 
 
     return (
-        <div>
+        <div className={cl.wrapper}>
             <CounterSettings minMax={minMax} changeMinValue={changeMinValue} changeMaxValue={changeMaxValue}
                              setMinMaxLocalStorage={setMinMaxLocalStorage}/>
             <Counter counter={counter} increaseCounterValue={increaseCounterValue}
