@@ -11,19 +11,21 @@ export type minMaxType = {
 export const App = () => {
     // UseState
     const [minMax, setMinMax] = useState<minMaxType>({max: 10, min: 0})
-    const [counter, setCounter] = useState(minMax.min)
+    const [counter, setCounter] = useState(minMax.min || "Set Value")
     const [error, setError] = useState("")
-
-
+    const [maxValInputError, setMaxValInputError] = useState(false)
+    const [minValInputError, setMinValInputError] = useState(false)
 
 
     ///// Counter Settings Store //////
     // Controlled MinMax inputs
     const changeMinValue = (value: number) => {
         setMinMax({...minMax, min: value})
+        setCounter("Set Value")
     }
     const changeMaxValue = (value: number) => {
         setMinMax({...minMax, max: value})
+        setCounter("Set Value")
     }
 
     // on button set set minMax values to localStorage, and we want to disable setButton after we click it
@@ -48,17 +50,23 @@ export const App = () => {
 
     // Errors Handler
     useEffect(() => {
-        if(minMax.min > minMax.max) {
+        if (minMax.min > minMax.max) {
             setError("Incorrect value!")
+            setMinValInputError(true)
         }
-        if(minMax.min === minMax.max) {
+        if (minMax.min === minMax.max) {
             setError("Incorrect value!")
+            setMaxValInputError(true)
+            setMinValInputError(true)
         }
-        if(minMax.min < 0) {
+        if (minMax.min < 0) {
             setError("Incorrect value!")
+            setMinValInputError(true)
         }
-        if(minMax.min !== minMax.max && minMax.min >= 0 && minMax.max > minMax.min) {
+        if (minMax.min !== minMax.max && minMax.min >= 0 && minMax.max > minMax.min) {
             setError("")
+            setMinValInputError(false)
+            setMaxValInputError(false)
         }
     }, [minMax])
 
@@ -71,7 +79,7 @@ export const App = () => {
         if (minMax) {
             const minMaxValue = JSON.parse(minMax)
 
-            if (counter < minMaxValue.max) setCounter(counter + 1)
+            if (typeof counter !== "string" && counter < minMaxValue.max) setCounter(counter + 1)
         }
     }
 
@@ -82,7 +90,7 @@ export const App = () => {
         if (minMax) {
             const minMaxValue = JSON.parse(minMax)
 
-            if (counter > minMaxValue.min) setCounter(counter - 1)
+            if (typeof counter !== "string" && counter > minMaxValue.min) setCounter(counter - 1)
         }
     }
 
@@ -93,6 +101,8 @@ export const App = () => {
                              changeMaxValue={changeMaxValue}
                              setMinMaxLocalStorage={setMinMaxLocalStorage}
                              error={error}
+                             maxValInputError={maxValInputError}
+                             minValInputError={minValInputError}
             />
 
             <Counter counter={counter}

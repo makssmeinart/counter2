@@ -2,7 +2,7 @@ import {FC, useEffect, useState} from "react";
 import cl from "./counter.module.css"
 
 type CounterType = {
-    counter: number
+    counter: number | string
     increaseCounterValue: () => void
     decreaseCounterValue: () => void
     error: string
@@ -11,8 +11,6 @@ type CounterType = {
 export const Counter: FC<CounterType> = ({counter, increaseCounterValue, decreaseCounterValue, error}) => {
     const [increaseButtonDisabled, setIncreaseButtonDisabled] = useState(false)
     const [decreaseButtonDisabled, setDecreaseButtonDisabled] = useState(false)
-
-    console.log(error)
 
 
     // We don't want to run an infinite loop so we are going to check only when counter is updated
@@ -53,11 +51,11 @@ export const Counter: FC<CounterType> = ({counter, increaseCounterValue, decreas
                 <div className={increaseButtonDisabled ? `${cl.lastNumber}` : ""}>{error ? error : counter}</div>
             </div>
             <div className={cl.buttonContainer}>
-                <button disabled={increaseButtonDisabled || error ? true : false}
+                <button disabled={increaseButtonDisabled || error || counter === "Set Value" ? true : false}
                         className={cl.button}
                         onClick={increaseCounterValueHandler}>Inc
                 </button>
-                <button disabled={decreaseButtonDisabled ? true : false}
+                <button disabled={decreaseButtonDisabled || error ? true : false}
                         className={cl.button}
                         onClick={decreaseCounterValueHandler}>Dec
                 </button>

@@ -8,6 +8,8 @@ type CounterSettings = {
     changeMaxValue: (value: number) => void
     setMinMaxLocalStorage: () => void
     error: string
+    maxValInputError: boolean
+    minValInputError: boolean
 }
 
 export const CounterSettings: FC<CounterSettings> = ({
@@ -15,7 +17,9 @@ export const CounterSettings: FC<CounterSettings> = ({
                                                          changeMinValue,
                                                          changeMaxValue,
                                                          setMinMaxLocalStorage,
-                                                         error
+                                                         error,
+                                                         maxValInputError,
+                                                         minValInputError
                                                      }) => {
     const [disableButton, setDisableButton] = useState(true)
 
@@ -47,12 +51,12 @@ export const CounterSettings: FC<CounterSettings> = ({
         <div className={cl.wrapper}>
             <div className={cl.inputHolder}>
                 <span>Max val:</span>
-                <input className={error ? `${cl.error}`: ""} type="number" value={minMax.max}
+                <input className={maxValInputError && maxValInputError ? `${cl.error}` : ""} type="number" value={minMax.max}
                        onChange={(e) => changeMaxValueHandler(e)}/>
             </div>
             <div className={cl.inputHolder}>
                 <span>Min val:</span>
-                <input className={error ? `${cl.error}`: ""} type="number" value={minMax.min}
+                <input className={minValInputError && minValInputError ? `${cl.error}` : ""} type="number" value={minMax.min}
                        onChange={(e) => changeMinValueHandler(e)}/>
             </div>
             <div className={cl.buttonContainer}>
