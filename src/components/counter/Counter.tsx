@@ -55,7 +55,7 @@ export const Counter: FC<CounterType> = ({counter, increaseCounterValue, decreas
                         className={cl.button}
                         onClick={increaseCounterValueHandler}>Inc
                 </button>
-                <button disabled={decreaseButtonDisabled || error ? true : false}
+                <button disabled={decreaseButtonDisabled || error || counter === "Set Value" ? true : false}
                         className={cl.button}
                         onClick={decreaseCounterValueHandler}>Dec
                 </button>
